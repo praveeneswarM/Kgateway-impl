@@ -19,4 +19,4 @@ spec:
               replacePrefixMatch: /
       backendRefs:
         - name: ey-cart-service
-          port: 3002
+          port: 3001
