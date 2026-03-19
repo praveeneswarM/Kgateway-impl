@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ey-cart-app
+  namespace: praveen-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ey-cart
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: ey-cart
+    spec:
+      containers:
+        - name: ey-cart-container
+          image: muralisocial123/ey-cart:v1.1.0
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ey-cart-service
+  namespace: praveen-ns
+spec:
+  selector:
+    app: ey-cart
+  ports:
+    - port: 3001
+      targetPort: 3000
+  type: ClusterIP

@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transaction-app
+  namespace: praveen-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transaction
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: transaction
+    spec:
+      containers:
+        - name: transaction-container
+          image: muralisocial123/transaction-app:v1.0.0
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: transaction-service
+  namespace: praveen-ns
+spec:
+  selector:
+    app: transaction
+  ports:
+    - port: 3000
+      targetPort: 3000
+  type: ClusterIP

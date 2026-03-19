@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flower-app
+  namespace: praveen-ns
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flower
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata: 
+      labels:
+        app: flower
+    spec:
+      containers:
+        - name: kyndrl-flower
+          image: muralisocial123/kyndrl-flower-app:v1.1.0
+          ports:
+            - containerPort: 3015
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: flower-service
+  namespace: praveen-ns
+spec:
+  selector:
+    app: flower
+  ports:
+    - port: 3015
+      targetPort: 3015
+  type: ClusterIP
