@@ -9,7 +9,7 @@ spec:
   rules:
     - matches:
         - path:
-            type: Pathprefix
+            type: PathPrefix
             value: /
       filters:
         - type: URLRewrite
