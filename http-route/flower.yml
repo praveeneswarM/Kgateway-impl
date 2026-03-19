@@ -13,7 +13,7 @@ spec:
             value: /flower
       filters:
         - type: URLRewrite
-          urlrewrite:
+          urlRewrite:
             path:
               type: ReplacePrefixMatch
               replacePrefixMatch: /
