@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: flower-route 
+  namespace: praveen-ns
+spec:
+  parentRefs:
+    - name: praveen-gateway
+  rules:
+    - matches:
+        - path:
+            type: Pathprefix
+            value: /flower
+      filters:
+        - type: URLRewrite
+          urlrewrite:
+            path:
+              type: ReplacePrefixMatch
+              replacePrefixMatch: /
+      backendRefs:
+        - name: flower-service
+          port: 3015
